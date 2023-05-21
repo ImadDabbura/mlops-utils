@@ -1,0 +1,30 @@
+name: Testing
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "tests/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "tests/**"
+      - "src_path/**"
+jobs:
+  test-code:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+      - name: Install poetry
+        run: pipx install poetry
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.10"
+          cache: "poetry"
+      - name: Install self
+        run: poetry install
+      - name: Execute tests
+        run: poetry run pytest
